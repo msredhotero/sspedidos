@@ -586,7 +586,9 @@ p.Stock,
 p.TipoProducto,
 p.CodProductoBarra,
 p.StockComprometido,
-p.PrecioEnvase
+p.PrecioEnvase,
+mar.descripcion as marca,
+gru.descripcion as grupo
 from dbproductos p 
 inner join tbmarcas mar ON mar.idmarca = p.refmarcas 
 inner join tbgrupoproductos gru ON gru.idgrupoproducto = p.refgrupoproductos 
@@ -594,6 +596,38 @@ order by 1";
 $res = $this->query($sql,0); 
 return $res; 
 } 
+
+
+
+function traerProductosPorGrupo($idgrupo) { 
+$sql = "select 
+p.idproducto,
+p.CodProducto,
+p.Descripcion,
+p.FechaAlta,
+p.Estado,
+p.StockCritico,
+p.ControlaStock,
+p.AvisarStock,
+p.refmarcas,
+p.Envase,
+p.refgrupoproductos,
+p.Stock,
+p.TipoProducto,
+p.CodProductoBarra,
+p.StockComprometido,
+p.PrecioEnvase,
+mar.descripcion as marca,
+gru.descripcion as grupo
+from dbproductos p 
+inner join tbmarcas mar ON mar.idmarca = p.refmarcas 
+inner join tbgrupoproductos gru ON gru.idgrupoproducto = p.refgrupoproductos 
+where gru.idgrupoproducto = ".$idgrupo."
+order by 1"; 
+$res = $this->query($sql,0); 
+return $res; 
+} 
+
 
 function traerProductosFaltantes() {
 	$sql = "select 

@@ -137,11 +137,30 @@ break;
 
 /* Fin */
 
+/* llamadas ajax */
+
+case 'traerProductosPorGrupo':
+    traerProductosPorGrupo($serviciosReferencias, $serviciosFunciones);
+    break;
+
+/* fin */
 
 }
 
 /* Fin */
 
+function traerProductosPorGrupo($serviciosReferencias, $serviciosFunciones) {
+    $idgrupo = $_POST['id'];
+
+    $resGrupo = $serviciosReferencias->traerGrupoproductosPorId($idgrupo);
+
+    if ($idgrupo == 0) {
+        echo $lstProductos  = $serviciosFunciones->devolverSelectBoxArray( $serviciosReferencias->traerProductos(),array(17,1,2,16),array('Grupo: ',' - Cod: ',' - Prod: ',' - Marca: '),'-- Todos --');
+    } else {
+        echo $lstProductos  = $serviciosFunciones->devolverSelectBoxArray( $serviciosReferencias->traerProductosPorGrupo($idgrupo),array(17,1,2,16),array('Grupo: ',' - Cod: ',' - Prod: ',' - Marca: '),'-- '.$serviciosReferencias->mysqli_result($resGrupo,0,1).' --');
+    }
+    
+}
 
 /* PARA Tipoclientes */
 

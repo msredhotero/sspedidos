@@ -34,7 +34,7 @@ $eliminar = "eliminarPedidos";
 
 $insertar = "insertarPedidos";
 
-$tituloWeb = "Gestión: Crovan";
+$tituloWeb = "Gestión: Full Escabio";
 //////////////////////// Fin opciones ////////////////////////////////////////////////
 
 
@@ -80,9 +80,13 @@ $lstCargados 	= $serviciosFunciones->camposTablaView($cabeceras,$serviciosRefere
 
 $lstCargadosProductosFaltantes 	= $serviciosReferencias->traerProductosFaltantes();
 
+$lstProductos  = $serviciosFunciones->devolverSelectBoxArray( $serviciosReferencias->traerProductos(),array(17,1,2,16),array('Grupo: ',' - Cod: ',' - Prod: ',' - Marca: '),'-- Seleccionar --');
+
 //$lstProductos =	$serviciosFunciones->camposTablaView($cabecerasProductos,$serviciosReferencias->traerProductosPorOrden(),5);
 
 $pedidosTemporal = $serviciosReferencias->traerDetallepedidoaux();
+
+$lstClientes = $serviciosFunciones->devolverSelectBox( $serviciosReferencias->traerClientes(),array(2),'');
 
 if ($_SESSION['refroll_predio'] != 1) {
 
@@ -125,6 +129,8 @@ if ($_SESSION['refroll_predio'] != 1) {
     <script src="../../bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../../css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="../../css/chosen.css">
+    <link rel="stylesheet" href="../../css/pushy-buttons.min.css">
+    
 	<style type="text/css">
 		#table-6 {
 			border:2px solid #C0C0C0;
@@ -147,8 +153,7 @@ if ($_SESSION['refroll_predio'] != 1) {
 		#table-6 tbody td .cent {
 			text-align:center;	
 		}
-  
-		
+
 	</style>
     
    
@@ -286,18 +291,128 @@ if ($_SESSION['refroll_predio'] != 1) {
     	<div class="cuerpoBox">
         	<form name="forma" class="form-inline formulario" role="form" method="post" action="confirmar.php">
         	<div class="row">
+                <div class="form-group col-md-3" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-plus"></span> Nro Pedido</label>
+                    <div class="input-group col-md-12">
+                        <input id="nropedido" class="form-control" name="nropedido" required type="number" value="1" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group col-md-2" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-time"></span> Fecha</label>
+                    <div class="input-group col-md-12">
+                        <input id="fecha" class="form-control" name="fecha" required type="text" value="2018-02-26" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group col-md-2" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-time"></span> Hora Entrada</label>
+                    <div class="input-group col-md-12">
+                        <input id="horaentrada" class="form-control" name="horaentrada" required type="text" value="18:25" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group col-md-3" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-list-alt"></span> Lista de Precios</label>
+                    <div class="input-group col-md-12">
+                        <select id="NroLista" name="NroLista" class="form-control">
+                            <option value="1">Lista A</option>
+                            <option value="2">Lista B</option>
+                            <option value="4">Lista D</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-2" style="display:block">
+                    <div class="input-group col-md-12">
+                        <ul class="list-inline">
+                        <li>
+                        <input type="radio" class="form-control" name="reftipopago" id="contado" checked value="1"/>Almacen
+                        </li>
+                        <li>
+                        <input type="radio" class="form-control" name="reftipopago" id="credito" value="3"/>Delibery
+                        </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-md-3" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-user"></span> Seleccione el Cliente</label>
+                    <div class="input-group col-md-12">
+                        <select data-placeholder="selecione el Cliente..." id="refclientes" name="refclientes" class="chosen-select" tabindex="2" style="width:100%;">
+                            
+                            <?php echo $lstClientes; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-3" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-pencil"></span> Nombre</label>
+                    <div class="input-group col-md-12">
+                        <input id="nombrecliente" class="form-control" name="nombrecliente" required type="text" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-2" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-road"></span> Direccion</label>
+                    <div class="input-group col-md-12">
+                        <input id="direccion" class="form-control" name="direccion" required type="text" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-2" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-phone-alt"></span> Telefono</label>
+                    <div class="input-group col-md-12">
+                        <input id="telefono" class="form-control" name="telefono" required type="text" value="">
+                    </div>
+                </div>
+                <div class="form-group col-md-2" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-tree-conifer"></span> Zona</label>
+                    <div class="input-group col-md-12">
+                        <select id="zonas" name="zonas" class="form-control">
+                            <option value="2">Palermo</option>
+                            <option value="3">Barrio Norte</option>
+                            <option value="4">Recoleta</option>
+                            <option value="5">Las Cañitas</option>
+                            <option value="6">Villa Crespo</option>
+                            <option value="7">Chacarita</option>
+                            <option value="8">Retiro</option>
+                            <option value="9">Centro</option>
+                            <option value="10">Belgrano</option>
+                            <option value="11">Nuñez</option>
+                            <option value="12">Coghlan</option>
+                            <option value="13">Villa Urquiza</option>
+                            <option value="14">Colegiales</option>
+                            <option value="15">Saavedra</option>
+                            <option value="16">Flores</option>
+                            <option value="17">Venta al publico</option>
+                            <option value="18">caballito</option>
+                            <option value="19">Caballito</option>
+                            <option value="20">caballito 2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
 
             	<div class="form-group col-md-2" style="display:block">
-                	<label class="control-label" for="codigobarra" style="text-align:left">Cantidad</label>
+                	<label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-copyright-mark"></span> Cantidad</label>
                     <div class="input-group col-md-12">
 	                    <input id="cantidadbuscar" class="form-control" name="cantidadbuscar" placeholder="Cantidad..." required type="number" value="1">
                     </div>
                 </div>
                 
-                <div class="form-group col-md-7" style="display:block">
-                	<label class="control-label" for="codigobarra" style="text-align:left">Codigo de Barras</label>
+                <div class="form-group col-md-5" style="display:block">
+                	<label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-qrcode"></span> Productos</label>
                     <div class="input-group col-md-12">
-	                    <input id="codigobarrabuscar" class="form-control" name="codigobarrabuscar" placeholder="Codigo de Barras..." type="number">
+	                    <select data-placeholder="selecione el Producto..." id="refproductos" name="refproductos" class="chosen-select" tabindex="2" style="width:100%;">
+                            
+                            <?php echo $lstProductos; ?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2" style="display:block">
+                    <label class="control-label" for="codigobarra" style="text-align:left"><span class="glyphicon glyphicon-paperclip"></span> Envases</label>
+                    <div class="input-group col-md-12">
+                        <input id="envases" class="form-control" name="envases" placeholder="Envases..." required type="number" value="0">
                     </div>
                 </div>
                 
@@ -308,7 +423,7 @@ if ($_SESSION['refroll_predio'] != 1) {
                     <div class="input-group col-md-12 text-right">
 	                    <ul class="list-inline">
                         <li>
-                        	<button type="button" class="btn btn-success" id="agregar" style="margin-left:0px;"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+                        	<button type="button" class="btn btn--md btn--green" id="agregar" style="margin-left:0px;"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
                         </li>
                         <li>
                         	<button type="button" class="btn btn-info" id="ver" style="margin-left:0px;"><span class="glyphicon glyphicon-search"></span> Ver</button>
@@ -316,6 +431,17 @@ if ($_SESSION['refroll_predio'] != 1) {
                     </div>
                 </div>
                 
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4><span class="glyphicon glyphicon-th-list"></span> Grupos</h4>
+                    <ul class="list-inline">
+                    <li><button type="button" class="btn btn-success btnGrupo" id="0" style="margin-left:0px;"><span class="glyphicon glyphicon-search"></span> Todos</button></li>
+                    <li><button type="button" class="btn btn-info btnGrupo" id="2" style="margin-left:0px;"><span class="glyphicon glyphicon-search"></span> Aperitivos</button></li>
+                    <li><button type="button" class="btn btn-info btnGrupo" id="8" style="margin-left:0px;"><span class="glyphicon glyphicon-search"></span> Espumante</button></li>
+                    
+                    </ul>
+                </div>
             </div>
 
             
@@ -328,6 +454,7 @@ if ($_SESSION['refroll_predio'] != 1) {
                 </div>
             </div>
             
+        <div class="row">
             <div class="col-md-12">
             <table class="table table-striped" id="table-6">
                 <thead>
@@ -335,6 +462,8 @@ if ($_SESSION['refroll_predio'] != 1) {
                         <th class="text-center">Id</th>
                         <th class="text-center">Producto</th>
                         <th class="text-center">Cantidad</th>
+                        <th class="text-center">Envases</th>
+                        <th class="text-center">Precio</th>
                         <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
@@ -358,16 +487,27 @@ if ($_SESSION['refroll_predio'] != 1) {
                 </tbody>
                 <tfoot>
                     <tr style="background-color:#CCC; font-weight:bold; font-size:18px;">
-                        <td colspan="3" align="right">
-                            Total:
+                        <td colspan="2" align="right">
+                        Sub-Totales:
                         </td>
-                        <td>
+                        <td align="right">
+                            <input type="text" readonly name="totalcantidad" id="totalcantidad" value="<?php echo $total; ?>" style="border:none; background-color:#CCC;"/>
+                        </td>
+                        <td align="right">
+                            <input type="text" readonly name="totalenvases" id="totalenvases" value="<?php echo $total; ?>" style="border:none; background-color:#CCC;"/>
+                        </td>
+                        <td align="right">
                             <input type="text" readonly name="total" id="total" value="<?php echo $total; ?>" style="border:none; background-color:#CCC;"/>
+                        </td>
+                        <td align="right">
+                            
                         </td>
                     </tr>
                 </tfoot>
             </table>
             </div>
+            
+        </div>
             
                     
             <div class="row">
@@ -468,6 +608,8 @@ if ($_SESSION['refroll_predio'] != 1) {
 
 <script type="text/javascript">
 $(document).ready(function(){
+
+    $('#colapsarMenu').click();
 	
 	$('#buscar').click(function(e) {
         $.ajax({
@@ -487,6 +629,31 @@ $(document).ready(function(){
 		});
 		
 	});
+
+    function buscarProductosPorGrupo(idgrupo) {
+        $.ajax({
+                data:  {id: idgrupo, accion: 'traerProductosPorGrupo'},
+                url:   '../../ajax/ajax.php',
+                type:  'post',
+                beforeSend: function(){
+                    $("#refproductos").html('');
+                },
+                success: function (data) {
+
+                    $("#refproductos").append(data);
+                    $("#refproductos").trigger("chosen:updated");
+                },
+                error: function (data) {
+                    console.log(data.d);
+                }
+            });
+    }
+
+    $('.btnGrupo').click(function() {
+        usersid =  $(this).attr("id");
+        buscarProductosPorGrupo(usersid);
+
+    });
 	
 	$('.abrir').click(function() {
 		

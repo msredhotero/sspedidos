@@ -20,6 +20,21 @@ class Servicios {
 		}
 		return $cad;
 	}
+
+	function devolverSelectBoxArray($datos, $ar, $delimitador, $titulo) {
+		
+		$cad		= '<option value="">'.$titulo.'</option>'; 
+		while ($rowTT = mysqli_fetch_array($datos)) {
+			$contenido	= '';
+			$k=0;
+			foreach ($ar as $i) {
+				$contenido .= $delimitador[$k].$rowTT[$i];
+				$k +=1;
+			}
+			$cad .= '<option value="'.$rowTT[0].'">'.utf8_encode($contenido).'</option>';
+		}
+		return $cad;
+	}
 	
 	function devolverSelectBoxActivo($datos, $ar, $delimitador, $idSelect) {
 		
